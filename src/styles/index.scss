@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat&display=swap');
+@import './variable.scss';
+
+body {
+  margin: 0;
+  font-family: $body-font;
+  font-size: 16px;
+  color: $text-color;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+header {
+  font-family: $background-color;
+}
