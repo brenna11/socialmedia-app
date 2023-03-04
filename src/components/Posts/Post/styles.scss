@@ -64,7 +64,7 @@
       }
     }
   }
-  .post-rate {
+  .rate {
     display: flex;
     justify-content: center;
     margin-top: 20px;
@@ -99,6 +99,18 @@
         svg {
           color: $danger-color;
         }
+      }
+    }
+  }
+
+  .rate-single-button {
+    button {
+      &.post-like {
+        border-right: none;
+        border-radius: 20px;
+      }
+      &.post-dislike {
+        border-radius: 20px;
       }
     }
   }

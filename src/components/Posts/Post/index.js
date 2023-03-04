@@ -2,20 +2,29 @@ import { getCategory } from "../../../includes/variable";
 import { getStatus } from "../../../includes/variable";
 import './styles.scss';
 import { BiLike, BiDislike } from "react-icons/bi";
+import { useSelector, useDispatch } from "react-redux";
+import { likePost, dislikePost } from '../../../redux/postSlice';
 
-export default function Post({ id, title, description, category, promote, status, pic, likes, dislikes, onPostLike, onPostDislike }) {
+export default function Post({ id, title, description, category, promote, status, pic, likes, dislikes}) {
+      const { allowLikes, allowDislikes } = useSelector((state) => state.settings)
+      const dispatch = useDispatch();
 
       const likeClickHandler = () => {
-            onPostLike(id);
+           dispatch(likePost(id));
       }
 
       const dislikesClickHandler = () => {
-            onPostDislike(id);
+          dispatch(dislikePost(id));
       }
 
       const promoteStyle = promote
             ? 'promote-yes'
             : 'promote-no';
+
+      let rateClassName = 'rate';
+      if (!allowLikes || !allowDislikes) {
+            rateClassName += '  rate-single-button';
+      }
 
       return (
             <div className="post-component">
@@ -26,31 +35,37 @@ export default function Post({ id, title, description, category, promote, status
                   </div>
                   <div className="post-info">
                         <div>
-                              Category: 
+                              Category:
                               <strong>{getCategory(category)}</strong>
                         </div>
                         <div>
-                              Status: 
+                              Status:
                               <strong>{getStatus(status)}</strong>
                         </div>
                         <div className={promoteStyle}>Promote:
                               <strong>{promote ? 'Yes' : 'No'}</strong>
                         </div>
                   </div>
-                  <div className="post-rate">
-                        <button 
-                           className="post-like" 
-                           onClick={likeClickHandler}
-                        >
-                              <BiLike /> {likes}
-                        </button>
-                        <button 
-                           className="post-dislike" 
-                           onClick={dislikesClickHandler}
-                        >
-                              <BiDislike /> {dislikes}
-                        </button>
-                  </div>
+                  {(allowLikes || allowDislikes) && (
+                        <div className={rateClassName}>
+                              {allowLikes && (
+                                    <button
+                                          className="post-like"
+                                          onClick={likeClickHandler}
+                                    >
+                                          <BiLike /> {likes}
+                                    </button>
+                              )}
+                              {allowDislikes && (
+                                    <button
+                                          className="post-dislike"
+                                          onClick={dislikesClickHandler}
+                                    >
+                                          <BiDislike /> {dislikes}
+                                    </button>
+                              )}
+                        </div>
+                  )}
             </div>
       );
 }
