@@ -8,15 +8,16 @@ header.main {
    padding: 5px;
 
    svg {
-      font-size: 50px;
+      font-size: 40px;
+      padding-right: 10px;
       color: $primary-color;
 
       @include breakpoint-small {
-         font-size: 60px;
+         font-size: 40px;
       }
 
       @include breakpoint-large {
-         font-size: 70px;
+         font-size: 50px;
       }
    }
 
