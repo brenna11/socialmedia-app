@@ -4,17 +4,20 @@ import './styles.scss';
 import { BiLike, BiDislike } from "react-icons/bi";
 import { useSelector, useDispatch } from "react-redux";
 import { likePost, dislikePost } from '../../../redux/postSlice';
+import { Link } from 'react-router-dom';
 
-export default function Post({ id, title, description, category, promote, status, pic, likes, dislikes}) {
+export default function Post({ id, title, description, category, promote, status, pic, likes, dislikes }) {
       const { allowLikes, allowDislikes } = useSelector((state) => state.settings)
       const dispatch = useDispatch();
 
-      const likeClickHandler = () => {
-           dispatch(likePost(id));
+      const likeClickHandler = (event) => {
+            event.preventDefault();
+            dispatch(likePost(id));
       }
 
-      const dislikesClickHandler = () => {
-          dispatch(dislikePost(id));
+      const dislikesClickHandler = (event) => {
+            event.preventDefault();
+            dispatch(dislikePost(id));
       }
 
       const promoteStyle = promote
@@ -27,7 +30,7 @@ export default function Post({ id, title, description, category, promote, status
       }
 
       return (
-            <div className="post-component">
+            <Link to={'/posts/' + id} className="post-component">
                   <h3>{title}</h3>
                   <div className="description">
                         <img src={pic} alt={title} />
@@ -66,6 +69,6 @@ export default function Post({ id, title, description, category, promote, status
                               )}
                         </div>
                   )}
-            </div>
+            </Link>
       );
 }
