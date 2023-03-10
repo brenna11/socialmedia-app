@@ -1,55 +1,38 @@
 import Header from "./components/Header";
-import Posts from "./components/Posts";
 import Footer from "./components/Footer";
-import Form from "./components/Form";
-import Settings from "./components/Settings";
+import HomePage from "./pages/HomePage";
+import PostListPage from "./pages/PostListPage";
+import PostFormPage from "./pages/PostFormPage";
+import PostItemPage from "./pages/PostItemPage";
+import PreferencesPage from "./pages/PreferencesPage";
+import AboutUsPage from "./pages/AboutUsPage";
+import AboutUsIntroductionPage from "./pages/AboutUsPage/Introduction";
+import AboutUsMissionPage from "./pages/AboutUsPage/Mission";
+import AboutUsPrivacyPage from "./pages/AboutUsPage/Privacy";
+import PageNotFound from "./pages/PageNotFound";
+import { Routes, Route } from 'react-router-dom';
 
 export default function App() {
- 
-    // const addPostHandler = (title, description, category, promote, status, pic) => {
-    //     const updatedPosts = [...posts];
-    //     updatedPosts.push({
-    //         id: uuid(),
-    //         title,
-    //         description,
-    //         category,
-    //         promote,
-    //         status,
-    //         pic,
-    //         likes: 0,
-    //         dislikes: 0,
-    //     });
-    //     setPosts(updatedPosts);
-    // };
-
-    // // update like number
-    // const onPostLike = (id) => {
-    //     const updatedPosts = [...posts];
-    //     updatedPosts.forEach((post) => {
-    //         if (post.id === id) {
-    //             post.likes++;
-    //         }
-    //     });
-    //     setPosts(updatedPosts);
-    // };
-
-    // // update dislike number
-    // const onPostDislike = (id) => {
-    //     const updatedPosts = [...posts];
-    //     updatedPosts.forEach((post) => {
-    //         if (post.id === id) {
-    //             post.dislikes++;
-    //         }
-    //     });
-    //     setPosts(updatedPosts);
-    // };
-
     return (
         <>
             <Header />
-            <Posts/>
-            <Form/>
-            <Settings />
+            <Routes>
+                <Route path='/' element={<HomePage/>} />
+
+                <Route path='/posts' element={<PostListPage/>} />
+                <Route path='/posts/:id' element={<PostItemPage />} />
+                <Route path='/posts/add' element={<PostFormPage />} />
+
+                <Route path='/preferences' element={<PreferencesPage />} />
+
+                <Route path='/about-us' element={<AboutUsPage/>}>
+                    <Route path='' element={<AboutUsIntroductionPage />} />
+                    <Route path='mission' element={<AboutUsMissionPage />} />
+                    <Route path='privacy' element={<AboutUsPrivacyPage />} />
+                </Route>
+
+                <Route path='*' element={<PageNotFound/>} />
+            </Routes>
             <Footer />
         </>
     );
