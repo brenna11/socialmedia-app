@@ -1,24 +1,12 @@
 @import '../../styles/variable.scss';
 
 .settings-component {
-   padding: 1rem;
-   text-align: center;
-
-   h1 {
-      color: $primary-color;
-      margin: 0;
-      padding: 0;
-      font-size: 20px;
-   }     
-
    .field {
-      display: inline-block;
-      padding: 0.5rem 0.5rem 0 0.5rem;
+      padding-top: 0.5rem;
 
       label {
          display: flex;
          align-items: center;
-         justify-content: center;
          color: $text-color;
          line-height: 1.2rem;
 

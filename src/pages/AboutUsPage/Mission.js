@@ -1,0 +1,10 @@
+export default function AboutUsMissionPage() {
+   return (
+      <>
+         <h2>Our Mission</h2>
+         <p>Curabitur ut ligula lacinia, fringilla eros et, aliquam sem. Fusce non tincidunt sapien, vel luctus nulla. Nunc mollis, felis in accumsan vestibulum, dui risus fermentum ligula, ut sollicitudin justo urna ut justo. Donec et dictum urna, vitae volutpat ex. Nulla convallis sollicitudin lacus, ac iaculis erat tincidunt vitae. Sed efficitur ligula ut nisl pretium ultricies. Nam malesuada nibh fringilla nulla lacinia dignissim. Sed vitae leo quis justo consequat bibendum ac ut diam. Donec erat ante, faucibus ac risus sed, suscipit ullamcorper urna. Nulla ultricies pretium lacus, et vulputate dolor iaculis quis. Suspendisse potenti.</p>
+         <p>In varius, urna non convallis faucibus, erat urna consequat est, in tempor erat ex at massa. Praesent id iaculis tellus, a tincidunt leo. Fusce tempus, ante tincidunt posuere lobortis, ex tellus auctor purus, et mollis elit leo ut enim. Cras venenatis tincidunt diam eget lacinia. Nullam purus enim, porttitor non molestie ut, dictum sit amet lectus. Proin at est turpis. Nam viverra ipsum eu scelerisque euismod. Fusce nibh libero, convallis et venenatis sed, fermentum accumsan ante. Integer est libero, malesuada sed odio at, interdum feugiat dui.</p>
+         <p>Proin consequat, tellus et consequat rhoncus, mi metus venenatis nulla, iaculis ornare orci urna sed lacus. Vestibulum sagittis massa vel mi ultricies porta vitae quis lacus. Sed id faucibus metus, vitae ornare odio. Integer eget enim molestie, faucibus ligula imperdiet, volutpat lorem. Quisque egestas mollis risus, ut lacinia urna congue nec. Aenean eget sollicitudin tortor. Donec feugiat at tortor vitae luctus. Integer ullamcorper, leo ut mollis varius, leo tellus blandit libero, sed mattis tellus mi luctus ante.</p>
+      </>
+   )
+}
