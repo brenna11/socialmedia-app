@@ -3,6 +3,7 @@ import { categories, moreStatus } from "../../includes/variable";
 import './styles.scss';
 import { useDispatch } from "react-redux";
 import { addPost } from '../../redux/postSlice';
+import * as database from '../../database';
 
 export default function Form() {
     const [title, setTitle] = useState("");
@@ -13,13 +14,14 @@ export default function Form() {
     const [errorMsg, setErrorMsg] = useState([]);
     const [pic, setPic] = useState("");
     const [showSuccess, setShowSuccess] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
 
     const dispatch = useDispatch();
-
     const inputFile = useRef();
 
-    const formSubmitHandler = (e) => {
+    const formSubmitHandler = async (e) => {
         e.preventDefault();
+
 
         // hide success message
         setShowSuccess(false);
@@ -43,20 +45,55 @@ export default function Form() {
 
         setErrorMsg(validate);
         if (validate.length === 0) {
-            // valid
-            const postMsg = {title, description, category, promote, status, pic};
-            dispatch(addPost(postMsg));
-            // show form success
-            setShowSuccess(true);
-            // clear form
-            setTitle("");
-            setDescription("");
-            setCategory("");
-            setPromote(true);
-            setStatus("");
-            setPic("");
-            inputFile.current.value = "";
+            setIsSaving(true);
+
+            // upload pic
+            const file = inputFile.current.files[0];
+            const pictureUrl = await database.uploadPicture(file);
+            if (pictureUrl) {
+
+                // valid
+                const data = {
+                    title,
+                    description,
+                    category,
+                    promote,
+                    status,
+                    pic: pictureUrl,
+                    likes: 0,
+                    dislikes: 0
+                };
+                const savedId = await database.save(data);
+                setIsSaving(false);
+                if (savedId) {
+                    data.id = savedId;
+                    dispatch(addPost(data));
+
+                    // show form success
+                    setShowSuccess(true);
+
+                    // clear form
+                    setTitle("");
+                    setDescription("");
+                    setCategory("");
+                    setPromote(true);
+                    setStatus("");
+                    setPic("");
+                    if (inputFile.current) {
+                        inputFile.current.value = "";
+                    }
+                }
+                else {
+                    setErrorMsg(['failed to save data']);
+                }
+            }
+            else {
+                setErrorMsg(['failed to upload picture']);
+            }
+            // hide save msg
+            setIsSaving(false);
         }
+
     };
 
     const statusHandler = (e) => {
@@ -71,6 +108,12 @@ export default function Form() {
             setPic(e.target.result);
         };
     };
+
+    if (isSaving) {
+        return (
+            <div>Saving..</div>
+        );
+    }
 
     return (
         <form className="form-component" onSubmit={formSubmitHandler}>

@@ -11,28 +11,52 @@ import AboutUsMissionPage from "./pages/AboutUsPage/Mission";
 import AboutUsPrivacyPage from "./pages/AboutUsPage/Privacy";
 import PageNotFound from "./pages/PageNotFound";
 import { Routes, Route } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import * as database from './database';
+import { setPosts } from "./redux/postSlice";
+import { useDispatch } from "react-redux";
+import Loading from "./components/Loading";
 
 export default function App() {
+    const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        // IIFE
+        (async() => {
+            // load db 
+            const data = await database.load();
+            dispatch(setPosts(data));
+            setIsLoading(false);
+        })();
+    }, []);
+
     return (
         <>
             <Header />
-            <Routes>
-                <Route path='/' element={<HomePage/>} />
+            {isLoading  
+            ? (
+                <Loading />
+            )
+            : (
+                <Routes>
+                <Route path='/' element={<HomePage />} />
 
-                <Route path='/posts' element={<PostListPage/>} />
+                <Route path='/posts' element={<PostListPage />} />
                 <Route path='/posts/:id' element={<PostItemPage />} />
                 <Route path='/posts/add' element={<PostFormPage />} />
 
                 <Route path='/preferences' element={<PreferencesPage />} />
 
-                <Route path='/about-us' element={<AboutUsPage/>}>
+                <Route path='/about-us' element={<AboutUsPage />}>
                     <Route path='' element={<AboutUsIntroductionPage />} />
                     <Route path='mission' element={<AboutUsMissionPage />} />
                     <Route path='privacy' element={<AboutUsPrivacyPage />} />
                 </Route>
 
-                <Route path='*' element={<PageNotFound/>} />
+                <Route path='*' element={<PageNotFound />} />
             </Routes>
+            )}
             <Footer />
         </>
     );

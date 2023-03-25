@@ -3,21 +3,56 @@ import { getStatus } from "../../../includes/variable";
 import './styles.scss';
 import { BiLike, BiDislike } from "react-icons/bi";
 import { useSelector, useDispatch } from "react-redux";
-import { likePost, dislikePost } from '../../../redux/postSlice';
+import { likePost, dislikePost, removePost } from '../../../redux/postSlice';
 import { Link } from 'react-router-dom';
+import * as database from '../../../database';
 
-export default function Post({ id, title, description, category, promote, status, pic, likes, dislikes }) {
+export default function Post({
+      id,
+      title,
+      description,
+      category,
+      promote,
+      status,
+      pic,
+      likes,
+      dislikes
+}) {
       const { allowLikes, allowDislikes } = useSelector((state) => state.settings)
       const dispatch = useDispatch();
 
-      const likeClickHandler = (event) => {
+      const likeClickHandler = async (event) => {
             event.preventDefault();
             dispatch(likePost(id));
+            const data = { likes: likes + 1 };
+            const updated = await database.update(id, data);
+            if (!updated) {
+                  alert('Failed to update likes');
+                  // data = { likes: likes - 1 };
+            }
       }
 
-      const dislikesClickHandler = (event) => {
+      const dislikesClickHandler = async (event) => {
             event.preventDefault();
             dispatch(dislikePost(id));
+            const data = { dislikes: dislikes + 1 };
+            const updated = await database.update(id, data);
+            if (!updated) {
+                  alert('Failed to update dislikes');
+                  // data = { dislikes: dislikes - 1 }
+            }
+      }
+
+      const removeClickHandler = async (event) => {
+            event.preventDefault();
+
+            // remove from redux
+            dispatch(removePost(id));
+            // remove from db
+            const removed = await database.remove(id);
+            if (!removed) {
+                  alert('Failed to remove post');
+            }
       }
 
       const promoteStyle = promote
@@ -69,6 +104,7 @@ export default function Post({ id, title, description, category, promote, status
                               )}
                         </div>
                   )}
+                  <button className="remove-btn" onClick={removeClickHandler}>Remove</button>
             </Link>
       );
 }

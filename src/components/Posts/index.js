@@ -10,6 +10,13 @@ export default function Posts({ showOnlyPromoted }) {
         posts = posts.filter((post) => post.promote);
     }
 
+    // validate if there are posts to show
+    if (posts.length === 0) {
+        return (
+            <>No Post Found.</>
+        );
+    }
+
     // sum of likes and dislikes
     let totalLikes = 0;
     let totalDislikes = 0;
